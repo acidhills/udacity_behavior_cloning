@@ -4,3 +4,4 @@ Keras==2.0.9
 opencv-python
 sklearn
 h5py==2.7.1
+matplotlib==2.1.0

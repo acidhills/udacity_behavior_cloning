@@ -2,8 +2,9 @@ import tensorflow as tf
 import numpy as np
 from keras.utils import Sequence
 from keras.applications import InceptionV3
-from keras.layers import Input, Lambda, Dense, Flatten
+from keras.layers import Input, Lambda, Dense, Flatten, Dropout
 from keras.models import Model
+from keras import backend
 import csv
 import os
 from sklearn.model_selection import train_test_split
@@ -12,6 +13,7 @@ from math import ceil
 import matplotlib.pyplot as plt
 from tensorflow.python.client import device_lib
 print(device_lib.list_local_devices())
+print(len(backend.tensorflow_backend._get_available_gpus()) > 0)
 
 
 MODEL_NAME = 'inception.frozen'
@@ -52,7 +54,8 @@ resized_input = Lambda(lambda image: tf.image.resize_images(image, (139, 139)))(
 normalized_input = Lambda(lambda x: x / 127.5 - 1.)(resized_input)
 inp = inception(normalized_input)
 flat = Flatten()(inp)
-dens1 = Dense(512, activation='relu')(flat)
+drop = Dropout(0.5)(flat)
+dens1 = Dense(512, activation='relu')(drop)
 dens2 = Dense(512, activation='relu')(dens1)
 predictions = Dense(1, activation='linear')(dens2)
 model = Model(inputs=model_input, outputs=predictions)

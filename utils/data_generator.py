@@ -37,4 +37,6 @@ def generator(samples, data_directory,batch_size=32):
 
             X_train = np.array(images)
             y_train = np.array(angles)
+            X_train = np.concatenate((X_train, X_train[...,::-1,:]))
+            y_train = np.concatenate((y_train,-y_train))
             yield shuffle(X_train, y_train)

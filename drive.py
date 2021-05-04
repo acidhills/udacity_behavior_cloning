@@ -17,6 +17,8 @@ import h5py
 from keras import __version__ as keras_version
 import tensorflow as tf
 
+from keras.applications import mobilenet
+
 sio = socketio.Server()
 app = Flask(__name__)
 model = None
@@ -45,7 +47,9 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 9
+# set_speed = 9
+set_speed = 18
+
 controller.set_desired(set_speed)
 
 
@@ -120,9 +124,9 @@ if __name__ == '__main__':
         print('You are using Keras version ', keras_version,
               ', but the model was built using ', model_version)
 
-#     model = load_model(args.model)
-    model = load_model(args.model, custom_objects={'tf': tf})
-
+    #     model = load_model(args.model)
+    model = load_model(args.model, custom_objects={'tf': tf, 'relu6': mobilenet.relu6,
+                                                   'DepthwiseConv2D': mobilenet.DepthwiseConv2D})
 
     if args.image_folder != '':
         print("Creating image folder at {}".format(args.image_folder))

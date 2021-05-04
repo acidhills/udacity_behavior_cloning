@@ -1,10 +1,3 @@
-import cv2
-import tensorflow as tf
-import numpy as np
-from keras.utils import Sequence
-from keras.applications import InceptionV3
-from keras.layers import Input, Lambda, Dense, Flatten, Dropout
-from keras.models import Model
 from keras import backend
 from keras.optimizers import RMSprop
 import csv
@@ -18,12 +11,13 @@ from keras.metrics import MAPE
 
 from utils.clr import OneCycleLR, LRFinder
 from utils.inception import get_inception
+from utils.mobilenet import get_mobilenet
 print(device_lib.list_local_devices())
 print(len(backend.tensorflow_backend._get_available_gpus()) > 0)
 
 
-LR_SEARCH = False
-MODEL_NAME = 'inception.frozen'
+LR_SEARCH = True
+MODEL_NAME = 'mobilenet.frozen'
 SAVE_MODEL = True
 DATA_DIRECTORY = '../opt/carnd_p3/data/'
 # DATA_DIRECTORY = 'data/'
@@ -54,10 +48,11 @@ validation_generator = image_generator(validation_samples, DATA_DIRECTORY, batch
 # print(x[0].shape)
 # image shape (160, 320, 3)
 
-model = get_inception(FREEZE)
+# model = get_inception(FREEZE)
+model = get_mobilenet(FREEZE)
 
 if LR_SEARCH:
-    model.compile(optimizer='RMSProp', loss='mse', metrics=[MAPE()])
+    model.compile(optimizer='RMSProp', loss='mse', metrics=[MAPE])
     minimum_lr = 0.0001
     maximum_lr = 0.1
     lr_callback = LRFinder(len(train_samples), BATCH_SIZE,
@@ -68,8 +63,8 @@ if LR_SEARCH:
                         validation_data=validation_generator,
                         validation_steps=ceil(len(validation_samples) / BATCH_SIZE),
                         epochs=1, verbose=1,callbacks=[lr_callback])
-    LRFinder.plot_schedule_from_file('lr_finder')
-
+    lr_callback.plot_schedule()
+    lr_callback.plot_schedule_from_file('lr_finder')
 
 else:
 
@@ -92,7 +87,7 @@ else:
 
     if SAVE_MODEL:
         model.save('model.h5')
-        model.save(f'model.{MODEL_NAME}.h5')
+        model.save('model.'+MODEL_NAME+'.h5')
 
 
     plt.plot(history_object.history['loss'])
@@ -101,7 +96,7 @@ else:
     plt.ylabel('mean squared error loss')
     plt.xlabel('epoch')
     plt.legend(['training set', 'validation set'], loc='upper right')
-    plt.savefig(f'{MODEL_NAME}.png')
+    plt.savefig(MODEL_NAME+'.png')
 
 
 

@@ -3,7 +3,7 @@ from utils.data_generator import get_generator
 from math import ceil
 import matplotlib.pyplot as plt
 from tensorflow.python.client import device_lib
-from keras.metrics import MAPE
+from keras.metrics import MSE
 
 from utils.clr import OneCycleLR, LRFinder
 from utils.inception import get_inception
@@ -44,7 +44,7 @@ if model is None:
     raise Exception('unknown model')
 
 if LR_SEARCH:
-    model.compile(optimizer='RMSProp', loss='mse', metrics=[MAPE])
+    model.compile(optimizer='RMSProp', loss='mse', metrics=[MSE])
     minimum_lr = 0.0001
     maximum_lr = 0.1
     lr_callback = LRFinder(train_len, BATCH_SIZE,
@@ -65,7 +65,7 @@ else:
 
     # inception lr 0.001
     # mobile lr 0.0001
-    model.compile(optimizer='RMSProp', loss='mse', metrics=[MAPE])
+    model.compile(optimizer='RMSProp', loss='mse', metrics=[MSE])
     lr_manager = OneCycleLR(train_len,
                             batch_size=BATCH_SIZE,
                             max_lr=0.001,

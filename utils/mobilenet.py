@@ -7,7 +7,7 @@ import tensorflow as tf
 def get_mobilenet(Freez=True):
     weights_flag = 'imagenet'
     mobilenet = MobileNet(weights=weights_flag, include_top=False,
-                            input_shape=(224, 224, 3))
+                          input_shape=(224, 224, 3))
 
     if Freez:
         for l in mobilenet.layers:

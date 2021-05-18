@@ -2,6 +2,24 @@
 
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
+##Requirements
+Python 3.5
+
+tensorflow 1.4.0  
+tensorflow-gpu 1.4.0  
+numpy 1.12.1  
+Keras 2.0.9  
+opencv-python  
+sklearn  
+h5py 2.7.1  
+matplotlib 2.1.0  
+python-socketio 3.1.2  
+Pillow 6.0.0  
+Flask 1.0.2  
+Flask-SocketIO 3.3.2  
+eventlet 0.24.1  
+tornado 6.0.2
+
 Overview
 ---
 This repository contains starting files for the Behavioral Cloning Project.
@@ -119,7 +137,3 @@ Will run the video at 48 FPS. The default FPS is 60.
 
 ### Tips
 - Please keep in mind that training images are loaded in BGR colorspace using cv2 while drive.py load images in RGB to predict the steering angles.
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-

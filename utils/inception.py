@@ -20,8 +20,7 @@ def get_inception(Freez=True):
             inception,
             Flatten(),
             Dropout(0.5),
-            Dense(256, activation='relu'),
-            Dense(256, activation='relu'),
-            Dense(256, activation='relu'),
+            Dense(512, activation='relu'),
+            Dense(512, activation='relu'),
             Dense(1, activation='linear')
         ])

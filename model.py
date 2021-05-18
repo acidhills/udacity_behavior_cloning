@@ -90,21 +90,3 @@ else:
     plt.xlabel('epoch')
     plt.legend(['training set', 'validation set'], loc='upper right')
     plt.savefig(MODEL_NAME + '.png')
-
-# Check the summary of this new model to confirm the architecture
-# print(model.summary())
-# x, y =  next(train_generator)
-# # print(x[0].shape)
-# print(model.predict(np.expand_dims(x[0], axis=0)))
-
-
-# from cv2 import imshow,waitKey
-# x, y =  next(train_generator)
-# # a = tf.make_tensor_proto(tf.image.crop_to_bounding_box(x[0],60,0,70,320))
-#
-# a = tf.image.crop_to_bounding_box(x[0],60,0,70,320).numpy()
-# b = tf.image.crop_to_bounding_box(x[0],60,0,80,320).numpy()
-# imshow('image',a)
-# imshow('image orig', x[0])
-# imshow('image crop2', b)
-# waitKey(0)

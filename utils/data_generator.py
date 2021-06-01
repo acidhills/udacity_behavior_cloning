@@ -50,6 +50,9 @@ def get_val_(gen):
         return False, None, None
 
 
+
+
+
 def generator(samples, data_directory, batch_size=32):
     num_samples = len(samples)
     while 1:
@@ -84,6 +87,22 @@ def generator(samples, data_directory, batch_size=32):
 
             X_train = np.array(images)
             y_train = np.array(angles)
-            X_train = np.concatenate((X_train, X_train[..., ::-1, :]))
-            y_train = np.concatenate((y_train, -y_train))
+
+            X_train, y_train = add_flip_(X_train, y_train)
+            X_train, y_train = add_darkness_(X_train, y_train)
+
             yield shuffle(X_train, y_train)
+
+
+def add_flip_(x, y):
+    x = np.concatenate((x, x[..., ::-1, :]))
+    y = np.concatenate((y, -y))
+    return x, y
+
+
+def add_darkness_(x,y):
+    beta = np.random.uniform(-120, -50)
+    colored = [cv2.convertScaleAbs(img, beta=beta) for img in x]
+    x = np.concatenate((x, colored))
+    y_train = np.concatenate((y, y))
+    return  x, y_train
